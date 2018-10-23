@@ -1,0 +1,538 @@
+\documentclass{beamer}
+\usepackage[utf8]{inputenc}
+\usepackage{polski}
+\usepackage[polish]{babel}
+\usetheme{Darmstadt}
+
+\newcommand{\impl}{\rightarrow}
+\renewcommand{\implies}{\rightarrow}
+
+\title{Logika intuicjonistyczna}
+ 
+\author{Zeimer}
+\date{6, 13 marca 2018}
+
+\begin{document}
+
+\frame{\titlepage}
+
+\frame{\tableofcontents}
+
+\section{Filozofia}
+
+\begin{frame}{Kto i po co wymyśla logiki}
+\begin{itemize}
+	\item Filozofowie — ''A może poszli do lasu?'' — potrzebna jest logika modalna, która rozstrzygnie, czy poszli, czy może jest konieczne, że jednak nie.
+	\item Lingwiści — ''Polacy mordowali żydów.'' — potrzebna jest jakaś logika, w której będzie można formalizować znaczenie zdań języka naturalnego.
+	\item Informatycy — ''U mnie działa.'' — potrzebna jest jakaś logika, która pozwoli chwycić programy za mordę i sprawi, że będą działały u wszystkich.
+	\item Matematycy — wymyślają jakieś głupoty z nudów, żeby brać na nie granty
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Jak powstaje konkretna logika — teoria}
+\begin{itemize}
+	\item Problem — ktoś ma jakiś problem i uważa, że można go rozwiązać za pomocą logiki.
+	\item Intuicje — twórca logiki ma pewien zestaw intuicji, pozwalający mu nieformalnie rozumować na temat problemu.
+	\item Składnia — intuicyjne myślenie o problemie wyraża się w pewnym języku nieformalnym. Żeby wyrazić formalne myślenie o problemie, trzeba skonstruować do tego celu język formalny.
+	\item Semantyka — próba uchwycenia ulotnych i niewyraźnych intuicji za pomocą precyzyjnego języka matematyki.
+	\item System(y) dowodzenia — próba zastąpienia dowodów intuicyjnych (niepewne) i opartych na semantyce (trudne w automatyzacji) przez formalne manipulacje na symbolach.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Jak powstaje logika — praktyka}
+W praktyce nie jest tak kolorowo jak na powyższym slajdzie.
+\begin{itemize}
+	\item Logiki często nie powstają, by rozwiązać jakiś problem, ale dlatego, że ich autor nie lubi jakiejś innej logiki i postanowił zrobić swoją (np. Brouwer, prekursor logiki intuicjonistycznej).
+	\item Intuicji często brak, jeżeli logika wiążę się głównie z dziwnymi zabawami matematyków (np. wyrzućmy coś z jakiejś logiki i zobaczmy, jakie twierdzenia da się udowodnić).
+	\item Składnia zazwyczaj zostaje ukradziona z logiki klasycznej lub jest jej lekką modyfikacją.
+	\item Dobrej semantyki często brak. Jest tak w przypadku logiki intuicjonistycznej (choć nie do końca) oraz logiki liniowej (tutaj sytuacja jest beznadziejna).
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Cele rozwoju logiki}
+Rozwijanie konkretnej logiki ma różne cele:
+\begin{itemize}
+	\item Formalny: celem rozwoju logiki rozumianej tutaj jako pary (semantyka, system dowodzenia) jest udowodnienie:
+	\begin{itemize}
+		\item Twierdzenia o poprawności (ang. soundness), które mówi, że możemy dowieść tylko zdań prawdziwych.
+		\item Twierdzenia o pełności (ang. completeness), które mówi, że każde zdanie prawdziwe ma dowód.
+	\end{itemize}
+		Pierwsze z nich jest absolutnie konieczne. Drugie jest miłe, ale czasem nieosiągalne.
+	\item Filozoficzny: wymyślanie nowych semantyk w celu pogłębienia wcześniejszych intuicji.
+	\item Inżynierski: wymyślanie nowych systemów dowodzenia, aby łatwiej było dowodzić.
+	\item Praktyczny: rozwiązywanie problemów, do których stworzono logikę.
+\end{itemize}
+\end{frame}
+
+\section{Historia}
+
+\begin{frame}{Jak powstała logika intuicjonistyczna}
+\begin{itemize}
+	\item Zaczęło się od tego, że niejaki L. E. J. Brouwer z różnych filozoficznych powodów nie lubił logiki klasycznej. W swoich pracach potępiał on prawo wyłączonego środka. Tak powstała intuicja.
+	\item Jego uczeń Arend Heyting ukradł składnię z logiki klasycznej i wymyślił algebry Heytinga. Tak powstała składnia i pierwsza semantyka.
+	\item Gerhard Gentzen wymyślił dedukcję naturalną i rachunek sekwentów. Tak powstały systemy dowodzenia.
+	\item Kripke wymyślił semantykę Kripkego. Tak powstała kolejna semantyka.
+	\item Curry i Howard zauważyli, że dowody w logice intuicjonistycznej odpowiadają termom rachunku lambda z typami prostymi i że można wykorzystać to do komputerowej formalizacji dowodów. Tak powstał problem, który logika intuicjonistyczna rozwiązywała.
+\end{itemize}
+\end{frame}
+
+\section{Intuicje}
+
+\begin{frame}{Intuicje — potęgowanie liczb niewymiernych}
+\begin{theorem}
+Istnieją takie liczby niewymierne $a, b$, że $a^b$ jest wymierne.
+\end{theorem}
+\begin{proof}
+Rozważmy przypadki: \\
+1. Jeżeli $\sqrt{2}^{\sqrt{2}}$ jest wymierne, niech $a = b = \sqrt{2}$. Wtedy $a^b = \sqrt{2}^{\sqrt{2}}$ jest wymierne na mocy założenia. \\
+2. Jeżeli nie, to niech $a = \sqrt{2}^{\sqrt{2}}$, b = $\sqrt{2}$. Wtedy $a^b = (\sqrt{2}^{\sqrt{2}})^{\sqrt{2}} = \sqrt{2}^{\sqrt{2} \cdot \sqrt{2}} = \sqrt{2}^2 = 2$ jest wymierne.
+\end{proof}
+\end{frame}
+
+\begin{frame}{Intuicje — potęgowanie liczb niewymiernych}
+Zagadka: podaj takie liczby niewymierne $a, b$, że $a^b$ jest wymierne.
+Rozwiązanie zagadki: mimo że na poprzednim slajdzie udowodniliśmy, że takie liczby istnieją, to nie wiemy, co to za liczby. Wynika to z faktu, że posłużyliśmy się zasadą wyłączonego środka (ang. law of excluded middle, w skrócie LEM), głoszącą, że $P \lor \neg P$. Jest ona niekonstruktywna, tzn. pozwala udowodnić istnienie obiektów bez konstruowania ich wprost.
+\end{frame}
+
+\begin{frame}{Intuicje — paradoks pijoka}
+\begin{theorem}
+W każdym niepustym barze istnieje taka osoba (nazwijmy ją pijokiem), że jeżeli ona pije, to wszyscy piją.
+\end{theorem}
+\begin{proof}
+Rozważmy przypadki: \\
+1. Jeżeli wszyscy piją, to pozamiatane (bar jest niepusty, więc na pijoka weźmy kogokolwiek). \\
+2. Jeżeli ktoś nie pije, to niech on zostanie pijokiem. Załóżmy, że pijok pije. Ponieważ jednak wiemy, że pijok nie pije, to dostajemy sprzeczność i wobec tego wszyscy piją.
+\end{proof}
+\end{frame}
+
+\begin{frame}{Intuicje — paradoks pijoka}
+Zagadka: wejdź do swojego ulubionego baru i wskaż pijoka.
+Rozwiązanie zagadki: mamy tutaj ten sam problem, co poprzednio. Mimo iż udowodniliśmy istnienie pijoka, to nie wiemy, kto konkretnie nim jest. Zasada wyłączonego środka i niekonstruktywizm po raz kolejny weszły nam w paradę.
+\end{frame}
+
+\begin{frame}{Intuicje — prawo wyłączonego środka}
+Problemy z LEM staną się jaśniejsze, gdy naszą logikę będziemy rozważać w bardziej obliczeniowy sposób, mianowicie gdy dowód $P$ będziemy rozumieć jako program, który jest ''certyfikatem'' prawdziwości $P$. W takim układzie dowód $P \lor \neg P$ to program rozstrzygający prawdziwość zdania $P$. W takiej interpretacji LEM pozwala nam rozstrzygnąć wszystkie problemy nierozstrzygalne.
+\end{frame}
+
+\begin{frame}{Intuicje — prawo wyłączonego środka}
+\begin{itemize}
+	\item 1. Problem stopu. Na mocy LEM każda maszyna Turinga kończy pracę albo i nie, ale nie potrafimy sprawdzić, która z tych dwóch opcji zachodzi.
+	\item 2. Równość liczb rzeczywistych. LEM mówi nam, że dwie liczby rzeczywisty albo są równe, albo nie. Tego również nie potrafimy sprawdzić (jeżeli faktycznie są równe i mają nieskończone rozwinięcia dziesiętne, to porównywanie ich cyfra po cyfrze nigdy się nie skończy).
+\end{itemize}
+\end{frame}
+
+\section{Składnia}
+
+\begin{frame}{Składnia}
+
+{\centering
+$\phi, \psi ::= \top | \bot | p | \neg \phi | \phi \lor \psi | \phi \land \psi | \phi \implies \psi | \phi \iff \psi$ \\
+}
+\relax
+
+\begin{itemize}
+	\item Składnia logiki intuicjonistycznej jest taka sama jak składnia logiki klasycznej ($p$ oznacza tutaj jedną z przeliczalnie wielu zmiennych zdaniowych).
+	
+	\item Żeby zmniejszyć rozmiar składni, czynimy następujące uproszczenia:
+	\begin{itemize}
+		\item Wyrzucamy $\neg \phi$ i definiujemy $\neg \phi = \phi \implies \bot$
+		\item Wyrzucamy $\phi \iff \psi$ i definiujemy $\phi \iff \psi = \phi \implies \psi \land \psi \implies \phi$
+	\end{itemize}
+	\item Są jeszcze inne możliwości uproszczenia składni, których jednak nie poczynimy:
+	\begin{itemize}
+		\item Moglibyśmy wyrzucić $\top$ i zdefiniować $\top = \bot \implies \bot$
+	\end{itemize}
+\end{itemize}
+
+\end{frame}
+
+\section{Semantyki}
+
+\begin{frame}{Semantyka formalna, nieformalna i intuicje}
+Oprócz intuicji oraz semantyki formalnej jest też trzeci byt, który możemy nazwać semantyką nieformalną. Intuicja jest nieformalna i przedskładniowa, zaś semantyka formalna jest formalna i poskładniowa. Semantyka nieformalna jest nieformalna i poskładniowa. \\~\
+
+W przypadku logiki intuicjonistycznej pochodzi ona od rodziny systemów dowodzenia zwanych zbiorczo dedukcją naturalną. Dzieje się tak w myśl maksymy Wittgensteina ''meaning is use'', czyli ''znaczenie to użycie'' - nieformalna semantyka logiki intuicjonistycznej pochodzi od reguł wnioskowania rządzących dedukcją naturalną, z którą zapoznamy się później. \\~\
+\end{frame}
+
+\begin{frame}{Algebry Heytinga - definicja}
+$(H, \leq, \top, \bot, \land, \lor, \impl)$ jest algebrą Heytinga, gdy $(H, \leq)$ jest częściowym porządkiem z elementem najmniejszym $\bot$ i największym $\top$, zaś $\land$, $\lor$ i $\impl$ to działania binarne i dla dowolnych $x, y, z \in H$ zachodzi: \\
+\begin{itemize}
+	\item $x \leq \top$
+	\item $x \land y \leq x$
+	\item $x \land y \leq y$
+	\item $z \leq x$ i $z \leq y$ implikuje $z \leq x \land y$
+	\item $\bot \leq x$
+	\item $x \leq x \lor y$
+	\item $y \leq x \lor y$
+	\item $x \leq z$ i $y \leq z$ implikuje $x \lor y \leq z$
+	\item $z \leq (x \impl y)$ wtedy i tylko wtedy, gdy $z \land x \leq y$
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Algebry Heytinga - waluacje}
+Niech $H$ będzie algebrą Heytinga. \\~\
+
+Waluacja to funkcja $v : \text{Var} \to H$, gdzie $\text{Var}$ oznacza zbiór zmiennych zdaniowych naszej logiki. \\~\
+
+Waluację możemy rozszerzyć do funkcji $\tilde{v}: \text{Frm} \to H$, gdzie $\text{Frm}$ to zbiór zdań naszej logiki, za pomocą następującej definicji: \\
+\begin{center}
+$\tilde{v}(\top) = \top$ \\
+$\tilde{v}(\bot) = \bot$ \\
+$\tilde{v}(P \land Q) = \tilde{v}(P) \land \tilde{v}(Q)$ \\
+$\tilde{v}(P \lor Q) = \tilde{v}(P) \lor \tilde{v}(Q)$ \\
+$\tilde{v}(P \impl Q) = \tilde{v}(P) \impl \tilde{v}(Q)$ \\
+\end{center}
+
+Zauważmy, że symbole $\top, \bot, \land, \lor, \impl$ po lewej oznaczają spójniki logiczne, a po prawej - operacje w algebrze Heytinga $H$.
+\end{frame}
+
+\begin{frame}{Algebry Heytinga - spełnianie}
+Niech $\Gamma = \{\phi_1, \dots, \phi_n\}$ będzie skończonym zbiorem zdań. \\
+Niech $\bigwedge \Gamma$ oznacza $\phi_1 \land \dots \land \phi_n$. \\
+Niech $\psi$ będzie zdaniem naszej logiki. \\~\
+
+$\psi$ jest $H$-konsekwencją zbioru zdań $\Gamma$, co zapisujemy $\Gamma \models_H \psi$, gdy dla każdej waluacji $v: \text{Var} \to H$ zachodzi $\tilde{v}(\bigwedge \Gamma) \leq \tilde{v}(\psi)$. \\~\
+
+Jako specjalny przypadek powyższej definicji możemy powiedzieć, że $\psi$ jest spełnione w $H$ (ang. $H$-valid), co zapisujemy $\models_H \psi$, gdy dla każdej waluacji $v: \text{Var} \to H$ mamy $\tilde{v}(\psi) = \top$.
+\end{frame}
+
+\begin{frame}{Algebry Heytinga - fakty}
+\begin{theorem}
+Semantyka algebro-Heytingowa jest poprawna i pełna (ang. sound and complete), tzn. zdanie $\phi$ jest dowodliwe w systemie dedukcji naturalnej z kontekstami wtedy i tylko wtedy, gdy jest spełnione w każdej algebrze Heytinga $H$.
+\end{theorem}
+\begin{theorem}
+Zdanie $\phi$ jest dowodliwe w systemie dedukcji naturalnej z kontekstami wtedy i tylko wtedy, gdy jest spełnione w każdej \textbf{skończonej} algebrze Heytinga $H$.
+\end{theorem}
+\end{frame}
+
+\begin{frame}{Spostrzeżenie filozoficzne}
+Zauważmy, że powyższe twierdzenia głoszą, że semantyka jest poprawna i pełna względem jakiegoś systemu dowodzenia, nie zaś na odwrót, jak teoretycznie powinno być. Jest to znamienne, gdyż w logice intuicjonistycznej dominuje wspomniana już semantyka nieformalna, pochodząca z systemu dedukcji naturalnej.
+\end{frame}
+
+\begin{frame}{Semantyka Kripkego}
+Ramka Kripkego to para $(W, R)$, gdzie $W$ jest zbiorem, zaś $R$ relacją binarną na $W$. Elementy $W$ będziemy nazywać światami, zaś $R$ będziemy nazywać relacją dostępności. \\~\
+
+Modelem Kripkego będziemy nazywać trójkę $(W, \leq, \Vdash)$, gdzie $(W, \leq)$ jest ramką Kripkego, w której $\leq$ jest preporządkiem, zaś $\Vdash$ jest relacją między światami a zdaniami naszej logiki, która dla dowolnej zmiennej zdaniowej $p$ oraz zdań $\phi$ i $\psi$ spełnia następujące warunki: \\
+\begin{center}
+$w \Vdash \top$ \\
+$w \leq u$ i $w \Vdash p$ implikuje $u \Vdash p$ \\
+$w \Vdash \phi \land \psi$ wtw $w \Vdash \phi$ i $w \Vdash \psi$ \\
+$w \Vdash \phi \lor \psi$ wtw $w \Vdash \phi$ lub $w \Vdash \psi$ \\
+$w \Vdash \phi \impl \psi$ wtw dla każdego $u \geq w$ jeżeli $u \Vdash \phi$ to $u \Vdash \psi$ \\
+$w \Vdash \bot$ nie zachodzi
+\end{center}
+\end{frame}
+
+\begin{frame}{Semantyka Kripkego - intuicje}
+Semantyka Kripkego tłumaczy prawdziwość zdań w logice intuicjonistycznej w sposób temporalno-epistemiczny, tj. mówi jak matematycy zdobywają więdzę w czasie: \\
+\begin{itemize}
+	\item Światy możemy utożsamiać ze stanami wiedzy. \\
+	\item Zapis $w \Vdash \phi$ możemy odczytywać tak, że $\phi$ jest prawdziwe w świecie $w$. \\
+	\item Zapis $w \leq u$ możemy odczytywać tak, że $u$ jest światem większej wiedzy niż $w$.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Semantyka Kripkego - fakty}
+\begin{theorem}
+Semantyka Kripkego jest poprawna i pełna (ang. sound and complete), tzn. zdanie $\phi$ jest dowodliwe w systemie dedukcji naturalnej z kontekstami wtedy i tylko wtedy, gdy $\phi$ zachodzi w każdym świecie każdego modelu Kripkego.
+\end{theorem}
+\end{frame}
+
+\section{Systemy dowodzenia}
+
+\begin{frame}{Język i metajęzyk}
+Należy rozróżnić pojęcia języka i metajęzyka. Przez język należy rozumieć logikę, którą się zajmujemy (w naszym przypadku jest to logika intuicjonistyczna), zaś metajęzyk to język, w którym przedstawiamy naszą logikę (w naszym wypadku jest to język polski). \\~\
+
+Rozróżnienie to jest ważne, gdyż istnienie zdań mówiących coś o samych sobie może prowadzić do sprzeczności, a tego nie chcemy. Żeby się przed tym bronić, o zdaniach języka będziemy zawsze mówić w metajęzyku. \\~\
+
+To rozróżnienie pomoże nam też zrozumieć, jak działają systemy dowodzenia.
+\end{frame}
+
+\begin{frame}{Osąd}
+	Osąd (ang. judgement) - zdanie w metajęzyku mówiące coś o zdaniach języka. Przykładem osądu może być stwierdzenie ''zdanie $P \land Q$ jest prawdziwe'' - jest to polskie zdanie mówiące coś o zdaniu $P \land Q$, będące zdaniem naszej logiki intuicjonistycznej. \\~\
+	
+	Osąd ''zdanie jest prawdziwe'' jest chyba najczęściej badanym, ale mogą być też inne: ''zdanie jest fałszywe'', ''zdanie jest poprawnie zbudowane'' etc. Bardzo ważnym osądem jest osąd hipotetyczny (ang. hypothetical judgement), który ma postać ''ze zdania $P$ wynika zdanie $Q$''. \\~\
+	
+	Zauważmy, że osądy mogą być prawdziwe i fałszywe. Przykładem fałszywego osądu może być osąd ''zdanie $\bot$ jest prawdziwe'' (chyba, że logika którą formalizujemy jest sprzeczna).
+\end{frame}
+
+\begin{frame}{Reguła wnioskowania}
+	Reguła wnioskowania (ang. rule of inference) - w najogólniejszym rozumieniu jest to pewna operacja zdefiniowana w metajęzyku, za pomocą której można przekształcać kolekcje osądów w inne kolekcje osądów. \\~\
+	
+	Niech osąd $P \ \text{true}$ oznacza ''zdanie $P$ jest prawdziwe''. Przykładem reguły wnioskowania może być reguła wprowadzania koniunkcji, którą możemy zapisać \\
+
+	\begin{center}
+		$\displaystyle \frac{P \ \text{true} \qquad Q \ \text{true}}{P \land Q \ \text{true}}$
+	\end{center}
+	
+	Reguła, mimo że zapisana za pomocą symboli, jest zdaniem języka polskiego, które głosi, że jeżeli zdanie $P$ jest prawdziwe i zdanie $Q$ jest prawdziwe, to zdanie $P \land Q$ jest prawdziwe.
+\end{frame}
+
+\begin{frame}{Reguły wnioskowania - konwencje}
+	Wygodną konwencją dotyczącą zapisu reguł wnioskowania jest to, że jeżeli w danym systemie dowodzenia występuje tylko jeden rodzaj osądów, to zamiast osądu będziemy pisać zdanie, którego on dotyczy, np. zamiast osądu $P \ \text{true}$ będziemy pisać samo $P$. W tej konwencji regułę z poprzedniego slajdu możemy przedstawić tak: \\
+	
+	\begin{center}
+		$\displaystyle \frac{P \quad Q}{P \land Q}$
+	\end{center}
+	
+	Konwencję tę można stosować też, gdy jest więcej niż jeden rodzaj osądów, ale nie istnieje ryzyko pomyłki.
+\end{frame}
+
+\begin{frame}{Aksjomat}
+	Aksjomat to osąd, który uznajemy za prawdziwy bez dowodu. Przykładem aksjomatu może być np. osąd $P \lor \neg P \ \text{true}$, który głosi, że ''zdanie $P \lor \neg P$ jest prawdziwe''.
+\end{frame}
+
+\begin{frame}{Aksjomaty a reguły}
+	Aksjomat z poprzedniego slajdu może nieco przypominać regułę wnioskowania \\
+	
+	\begin{center}
+		$\displaystyle \frac{}{P \lor \neg P \ \text{true}}$
+	\end{center}
+	
+	która głosi, że z nicości możemy wywnioskować prawdziwość zdania $P \lor \neg P$. Różnica między aksjomatami i regułami staje się istotna, gdy próbujemy nadać naszej logice interpretację obliczeniową. Te konstrukty, które mają taką interpretację, zostają wtedy regułami wnioskowania, aksjomaty służą zaś do wyrażania osądów niemających interpretacji obliczeniowej.
+\end{frame}
+
+\begin{frame}{System dowodzenia}
+	System dowodzenia (ang. proof system) dla logiki (rozumianej tutaj jako czysta składnia, lub też po prostu zbiór zdań $\text{Frm}$) to kolekcja osądów, reguł wnioskowania i aksjomatów. Regułom i aksjomatom nadajemy zazwyczaj jakieś nazwy, żeby można było łatwo się do nich odnosić. System może też wprowadzać jakieś nowe rodzaje bytów (np. konteksty), jeżeli są potrzebne do wydawania osądów. \\~\
+	
+	O ile wszystkie systemy dowodzenia opierają się na osądach, o tyle reguły wnioskowania i aksjomaty mogą występować w różnych proporcjach.
+\end{frame}
+
+\begin{frame}{System Hilberta dla logiki intuicjonistycznej}
+	Osąd: $P \ \text{true}$ - ''zdanie $P$ jest prawdziwe'' (zapisywany wg naszej konwencji po prostu jako $P$).
+	
+	Reguła wnioskowania: $\displaystyle \frac{\phi \implies \psi \qquad \phi}{\psi}$ (modus ponens)
+	
+	Aksjomaty:
+
+	\begin{itemize}
+		\item THEN-1: $\phi \to (\chi \to \phi)$
+		\item THEN-2: $(\phi \to (\chi \to \psi)) \to ((\phi \to \chi )\to (\phi \to \psi ))$
+		\item AND-1: $\phi \land \chi \to \phi$
+		\item AND-2: $\phi \land \chi \to \chi$
+		\item AND-3: $\phi \to (\chi \to (\phi \land \chi))$
+		\item OR-1: $\phi \to \phi \lor \chi$
+		\item OR-2: $\chi \to \phi \lor \chi$
+		\item OR-3: $(\phi \to \psi )\to ((\chi \to \psi )\to (\phi \lor \chi \to \psi ))$
+		\item FALSE: $\bot \to \phi$
+		\item TRUE: $\top$
+	\end{itemize}
+\end{frame}
+
+\begin{frame}{Systemy Hilberta}
+	Przedstawiony powyżej system Hilberta jest dość minimalistyczny - ma jeden osąd, jedną regułę wnioskowania i 10 aksjomatów. Jest nieporęczny zarówno dla ludzi (trudno dowodzić w nim ręcznie, gdyż różni się od nieformalnego sposobu dowodzenia w matematyce) jak i dla komputerów (nieprzydatny w automatycznym dowodzeniu). \\~\
+	
+	Zauważmy, że nie jest to jedyny system Hilberta, jaki można skonstruować - jest ich nieskończenie wiele, w zależności od wybranego zestawu aksjomatów. 
+\end{frame}
+
+\begin{frame}{Rachunek sekwentów (dla logiki klasycznej)}
+	Rachunek sekwentów to system, w którym występuje jeden osąd, zwany sekwentem. Zapisujemy go $\Gamma \vdash \Delta$, a czytamy ''z koniunkcji zdań ze zbioru $\Gamma$ wynika alternatywa zdań ze zbioru $\Delta$''. \\~\
+	
+	Reguły wnioskowania występują w dwóch seriach, nazywanych lewą i prawą. ''Lewe'' reguły mówią, jak operować na zdaniach, które w sekwencie są po lewej stronie, a ''prawe'' jak operować na zdaniach, które w sekwencie są po prawej. \\~\
+	
+	Charakterystyczne dla tego systemu jest, że reguł wnioskowania jest dużo, nie ma zaś aksjomatów.
+\end{frame}
+
+\begin{frame}{Klasyczny rachunek sekwentów - spójniki}
+\begin{columns}
+\begin{column}{0.6\textwidth}
+\begin{itemize}
+	\setlength\itemsep{2em}
+	\item $\displaystyle \frac{\Gamma, A \land B \vdash \Delta}{\Gamma, A, B \vdash \Delta} (L\land)$
+	\item $\displaystyle \frac{\Gamma, A \lor B \vdash \Delta}{\Gamma, A \vdash \Delta \qquad \Gamma, B \vdash \Delta} (L\lor)$
+	\item $\displaystyle \frac{\Gamma, \lnot A \vdash \Delta}{\Gamma \vdash \Delta, A} (L\lnot)$
+	\item $\displaystyle \frac{\Gamma, A \rightarrow B \vdash \Delta}{\Gamma \vdash \Delta, A \qquad \Gamma, B \vdash \Delta} (L\rightarrow)$
+\end{itemize}
+\end{column}
+\begin{column}{0.5\textwidth}
+\begin{itemize}
+	\setlength\itemsep{2em}
+	\item $\displaystyle \frac{\Gamma \vdash \Delta, A \land B}{\Gamma \vdash \Delta, A \qquad \Gamma \vdash \Delta, B} (R\land)$
+	\item $\displaystyle \frac{\Gamma \vdash \Delta, A \lor B}{\Gamma \vdash \Delta, A, B} (R\lor)$
+	\item $\displaystyle \frac{\Gamma \vdash \Delta, \lnot A}{\Gamma, A \vdash \Delta} (R\lnot)$
+	\item $\displaystyle \frac{\Gamma \vdash \Delta, A \rightarrow B}{\Gamma, A \vdash \Delta, B} (R\rightarrow)$
+\end{itemize}
+\end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}{Interpretacja reguł dla spójników}
+	Regułę postaci \\
+	
+	\begin{center}
+		$\displaystyle \frac{\mathcal{J}_1 \dots \mathcal{J}_n}{\mathcal{J}'_1 \dots \mathcal{J}'_n}$
+	\end{center}
+	
+	można interpretować (czytając z góry na dół): ''żeby dowieść osądów $\mathcal{J}_1, \dots, \mathcal{J}_n$, wystarczy dowieść osądów $\mathcal{J}'_1, \dots, \mathcal{J}'_n$. \\~\
+	
+	Zauważmy, że reguły dla negacji możemy otrzymać z reguł dla implikacji, zaś reguły dla implikacji z reguł dla negacji i dysjunkcji.
+\end{frame}
+
+\begin{frame}{Klasyczny rachunek sekwentów - reguły strukturalne}
+\begin{columns}
+\begin{column}{0.6\textwidth}
+\begin{itemize}
+	\setlength\itemsep{2em}
+	\item $\displaystyle \frac{\Gamma, A \vdash \Delta}{\Gamma \vdash \Delta}$ (WL)
+	\item $\displaystyle \frac{\Gamma, A \vdash \Delta}{\Gamma, A, A \vdash \Delta}$ (CL)
+	\item $\displaystyle \frac{\Gamma_1, A, B, \Gamma_2 \vdash \Delta}{\Gamma_1, B, A, \Gamma_2 \vdash \Delta}$ (PL)
+\end{itemize}
+\end{column}
+\begin{column}{0.5\textwidth}
+\begin{itemize}
+	\setlength\itemsep{2em}
+	\item $\displaystyle \frac{\Gamma \vdash A, \Delta}{\Gamma \vdash \Delta}$ (WR)
+	\item $\displaystyle \frac{\Gamma \vdash A, \Delta}{\Gamma \vdash A, A,\Delta}$ (CR)
+	\item $\displaystyle \frac{\Gamma \vdash \Delta_1, A, B, \Delta_2}{\Gamma \vdash \Delta_1, B, A, \Delta_1}$ (PR)
+\end{itemize}
+\end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}{Interpretacja reguł strukturalnych}
+	Reguły WL i WR mówią, że możemy usuwać założenia i cele; CL i CR mówią, że możemy je kopiować; PL i PR mówią, że możemy zamieniać ich kolejność. \\~\
+	
+	Nie są to jednak reguły, które można stosować automatycznie, gdyż moglibyśmy nieopatrznie usunąć sobie potrzebne założenie, albo wpaść w nieskończoną pętlę, na ślepo kopiując i zamieniając kolejność założeń i celów.
+\end{frame}
+
+\begin{frame}{Klasyczny rachunek sekwentów - pozostałe reguły}
+	\begin{center}
+		$\displaystyle \frac{}{A \vdash A} (\text{Ass})$
+	\end{center}
+	
+	Ass to reguła, która pozwala nam skorzystać z założenia.
+	
+	\begin{center}
+		$\displaystyle \frac{\Gamma, \Sigma \vdash \Delta, \Pi}{\Gamma \vdash \Delta, A \qquad A, \Sigma \vdash \Pi}$ (Cut)
+	\end{center}
+	
+	Cut to reguła, która pozwala nam udowodnić na boku potrzebny nam lemat. \\~\
+	
+	Uwaga: w powyższej prezentacji pominięto reguły dla $\top$ oraz $\bot$, gdyż są mało ciekawe.
+\end{frame}
+
+\begin{frame}{Klasyczny rachunek sekwentów - podsumowanie}
+	Zauważmy, że stosowanie reguł dla spójników daje w wyniku sekwenty o mniejszej złożoności. Dzięki temu możemy je stosować bez zastanowienia, co sprawia, że rachunek sekwentów świetnie sprawdza się w automatycznym dowodzeniu. \\~\
+	
+	Rachunek sekwentów dla logiki intuicjonistycznej można uzyskać z tego zaprezentowanego powyżej poprzez ograniczenie zbioru formuł po prawej stronie sekwentu do singletonu. \\~\
+	
+	\url{http://logitext.mit.edu/main}
+	 to świetne miejsce, gdzie można poćwiczyć dowodzenie w rachunku sekwentów (zarówno klasycznym, jak i intuicjonistycznym). Uwaga: zabawa jest dość bezmyślna.
+\end{frame}
+
+\begin{frame}{Dedukcja naturalna}
+	Dedukcja naturalna to system, który powstał, by oddać sposób, w jaki matematycy rozumują na co dzień. \\~\
+	
+	Jedynym osądem jest osąd hipotetyczny, zapisywany jako $\Gamma \vdash P$, który możemy interpretować ''z koniunkcji zdań ze zbioru $\Gamma$ wynika zdanie $P$''. \\~\
+	
+	Podobnie jak w rachunku sekwentów mamy tu sporo reguł i żadnych aksjomatów. \\~\
+	
+	Systemy dedkucji naturalnej występują w wielu wersjach: Fitch, tradycyjnym (bez kontekstów) oraz z kontekstami. Przyjrzymy się tylko ostatniemu z nich, gdyż jest on najbardziej praktyczny.
+\end{frame}
+
+\begin{frame}{Dedukcja naturalna - reguły dla spójników}
+\begin{columns}
+	\begin{column}{0.6\textwidth}
+	\begin{itemize}
+		\setlength\itemsep{2em}
+		\item $\displaystyle \frac{\Gamma \vdash A \qquad \Gamma \vdash B}{\Gamma \vdash A \land B} (\land\text{-intro})$
+		\item $\displaystyle \frac{\Gamma \vdash A}{\Gamma \vdash A \lor B} (\lor\text{-intro L})$
+		\item $\displaystyle \frac{\Gamma \vdash B}{\Gamma \vdash A \lor B} (\lor\text{-intro R})$
+		\item $\displaystyle \frac{\Gamma, A \vdash B}{\Gamma \vdash A \implies B} (\implies\text{-intro})$
+	\end{itemize}
+	\end{column}
+	
+	\begin{column}{0.6\textwidth}
+	\begin{itemize}
+		\setlength\itemsep{2em}
+		\item $\displaystyle \frac{\Gamma \vdash A \land B}{\Gamma \vdash A} (\land\text{-elim L})$
+		\item $\displaystyle \frac{\Gamma \vdash A \land B}{\Gamma \vdash B} (\land\text{-elim R})$
+		\item $\displaystyle \frac{\Gamma, A \vdash C \qquad \Gamma, B \vdash C}{\Gamma, A \lor B \vdash C} (\lor\text{-elim})$
+		\item $\displaystyle \frac{\Gamma \vdash A \impl B \qquad \Gamma \vdash A}{\Gamma \vdash B} (\impl\text{-elim})$
+	\end{itemize}
+	\end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}{Interpretacja reguł dla spójników}
+	Reguły wnioskowania dla spójników dzielą się na dwie grupy, mianowicie reguły wprowadzania i reguły eliminacji. Reguły wprowadzania (czytane z góry na dół) mówią, jak udowodnić zdanie zawierające dany spójnik, np. $\lor\text{-intro}\ L$ mówi, że jeżeli z kontekstu $\Gamma$ wynika zdanie $A$, to z $\Gamma$ wynika też zdanie $A \lor B$. \\~\
+	
+	Reguły eliminacji (czytane z góry na dół) mówią, co możemy wywnioskować, mając dane zdanie w kontekście jako założenie, np. reguła $\land\text{-elim} R$ mówi, że jeżeli wiemy, że z $\Gamma$ wynika $A \land B$, to z $\Gamma$ wynika także $B$.
+\end{frame}
+
+\begin{frame}{Harmonia}
+	Rozsądnym jest, żebyśmy eliminując dane zdanie za pomocą reguły eliminacji byli w stanie wywnioskować dokładnie tyle informacji, ile potrzebowaliśmy do jego udowodnienia za pomocą reguły wprowadzania. \\~\
+	
+	Dla przykładu, żeby udowodnić $A \land B$ musimy udowodnić osobno $A$ oraz $B$, więc mając $A \land B$ jako założenie możemy wywnioskować, że zachodzi nic więcej ponad $A$ i $B$. \\~\
+	
+	Zjawisko to nosi nazwę harmonii i jest charakterystyczne dla dedukcji naturalnej w logice intuicjonistycznej. W logice klasycznej nie jest ono obecne, gdyż tautologie takie jak $P \lor \neg P$ dają nam informacje za darmo.
+\end{frame}
+
+\begin{frame}{Dedukcja naturalna - reszta reguł}
+	W systemie dedukcji naturalnej mamy też reguły podobne do tych znanych z rachunku sekwentów:
+	\begin{itemize}
+		\item Reguły strukturalne pozwalające nam usuwać, kopiować i przestawiać założenia obecne w kontekście.
+		\item Regułę pozwalającą nam skorzystać z założenia.
+		\item Regułę Cut pozwalającą udowodnić na boku przydatny lemat.
+	\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Dedukcja naturalna - podsumowanie}
+	Dedukcja naturalna jest tym systemem dowodzenia, z którego większość ludzi czerpie swoją nieformalną semantykę dla logiki intuicjonistycznej. Nadaje się ona całkiem nieźle do automatycznego dowodzenia, choć nie aż tak dobrze jak rachunek sekwentów. \\~\
+	
+	Jej główną zaletą jest jednak podobieństwo do codziennego sposobu dowodzenia stosowanego przez matematyków oraz fakt, że jej dowody odpowiadają w bardzo ścisłym sensie termom rachunku $\lambda$ z typami prostymi (korespondencja Curry'ego-Howarda), co czyni związane z nią intuicje podstawą rozmaitych systemów typów, funkcyjnych języków programowania oraz asystentów dowodzenia. \\~\
+	
+	Więcej o dedukcji naturanej bez kontekstów można przeczytać tutaj: \url{http://www.cs.cmu.edu/~fp/courses/15317-f17/lectures/02-natded.pdf}
+\end{frame}
+
+\section{Korespondencja Curry'ego-Howarda}
+
+\begin{frame}{Korespondencja Curry'ego-Howarda}
+
+\begin{columns}
+\begin{column}{0.5\textwidth}
+\begin{itemize}
+	\item Typ $1$ (singleton).
+	\item Typ $\emptyset$ (pusty).
+	\item Termami produktu $A \times B$ są pary termów $(a, b)$
+	\item Termami typu $A \to B$ są funkcje, które przekształcają term typu $A$ w term typu $B$.
+\end{itemize}
+\end{column}
+\begin{column}{0.5\textwidth}
+\begin{itemize}
+	\item Zdanie $\top$ (prawda).
+	\item Zdanie $\bot$ (fałsz).
+	\item Dowodami koniunkcji $P \land Q$ są pary dowodów $(p, q)$.
+	\item Dowód implikacji $P \impl Q$ przekształca dowód poprzednika $P$ w dowód następnika $Q$. 
+\end{itemize}
+\end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}{Korespondencja Curry'ego-Howarda}
+	Na rozwinięcie tematu nie wystarczyło czasu. Więcej można przeczytać tutaj: \url{http://www.cs.cmu.edu/~fp/courses/15317-f17/lectures/03-pap.pdf}
+\end{frame}
+
+\begin{frame}{Coq}
+	Coq to funkcyjny język programowania z typami zależnymi oraz asystent dowodzenia (ang. proof assistant), którego działanie opiera się na ideach pochodzących ostatecznie od logiki intuicjonistycznej, dedukcji naturalnej i korespondencji Curry'ego-Howarda. \\~\
+	
+	Jednym z większych sukcesów w jego zastosowaniu była formalizacja dowodu twierdzenia o czterech barwach, znanego z teorii grafów. \\~\
+	
+	Jeżeli chcesz dowiedzieć się więcej na jego temat, zajrzyj na jego stronę domową \url{https://coq.inria.fr/} lub do mojej książki \url{https://zeimer.github.io/}
+\end{frame}
+
+\section{Zadania}
+
+\begin{frame}{Zadania}
+\begin{itemize}
+	\item Znajdź algebrę Heytinga, w której nie zachodzi $P \lor \neg P$.
+	\item Znajdź model Kripkego, w którym nie zachodzi $P \lor \neg P$.
+	\item Udowodnij zdanie $\neg (P \land \neg P)$ w systemie Hilberta, rachunku sekwentów i dedukcji naturalnej.
+	\item Czy dowód twierdzenia Cantora-Bernsteina jest konstruktywny?
+	\item Sprawdź, które tautologie logiki klasycznej są tautologiami logiki intuicjonistycznej, a które nie.
+	\item (Opcjonalne) Zainstaluj Coqa, przeczytaj \url{https://zeimer.github.io/R1.html} i wykonaj wszystkie ćwiczenia.
+\end{itemize}
+\end{frame}
+
+\end{document}
