@@ -1,0 +1,216 @@
+\documentclass{beamer}
+\usepackage[utf8]{inputenc}
+\usepackage{polski}
+\usepackage[polish]{babel}
+\usetheme{Darmstadt}
+
+\newcommand{\impl}{\rightarrow}
+\renewcommand{\implies}{\rightarrow}
+
+\title{Computability Logic}
+ 
+\author{Zeimer}
+\date{12 czerwca 2018}
+
+\begin{document}
+
+\frame{\titlepage}
+
+\frame{\tableofcontents}
+
+\section{Motywacja}
+
+\begin{frame}{Słabe punkty logik}
+\begin{itemize}
+	\item Logika klasyczna: każda maszyna Turinga kończy pracę lub nie... ale czy da się napisać program (albo zbudować maszynę), która będzie to rozstrzygać? Potrzeba logiki intuicjonistycznej.
+	\item Logika intuicjonistyczna: jeżeli mam 10 zł, to mogę kupić kebaba. Wobec tego za 10 zł mogę kupić dowolną ilość kebabów. Potrzeba logiki liniowej.
+	\item Logika liniowa: być może w Smoleńsku był zamach. Potrzeba logiki modalnej.
+	\item Logika modalna: zawsze lubię placki, więc jutro lubię placki. Potrzeba logiki temporalnej.
+	\item Logika temporalna nie jest bynajmniej logicznym zbawicielem.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Idee stojące za logikami}
+	Jak widać, za każdą logiką stoi jakaś idea, do której ta logika się ogranicza, odrzucając (przynajmniej częściowo) inne.
+	\begin{itemize}
+		\item Logika klasyczna — prawda.
+		\item Logika intuicjonistyczna — obliczenia.
+		\item Logika liniowa — zasoby.
+		\item Logiki modalne — modalności.
+		\item Logiki temporalne — czasy.
+	\end{itemize}
+\end{frame}
+
+\begin{frame}{Być jak Sauron}
+\begin{itemize}
+	\item Rodzi się naturalne pytanie: czy da się stworzyć Jedyny Pierścień, który będzie rządził innymi?
+	\item W sumie moglibyśmy zsumować wszystkie wymienione wyżej logiki i gitara, c'nie?
+	\item Nie do końca, bo musimy jeszcze ustalić, jakie są zależności między różnymi spójnikami, np. liniową implikacją i modalnościami.
+	\item Jeżeli pozbędziemy się idei modalności i czasu, to pewien Gruzin nazwiskiem Japaridze twierdzi, że udało mu się zbudować Jedyny Pierścień.
+\end{itemize}
+\end{frame}
+
+\section{Droga do celu}
+
+\begin{frame}{Semantyka ponad składnią}
+\begin{itemize}
+	\item Skoro naiwne podejście składniowe (``wrzućmy do jednego wora spójniki z różnych logik i zobaczmy, co wyjdzie'') nie zadziała, to pozostaje nam podejście semantyczne. \\
+	\item Należy zaznaczyć, że Japaridze uważając semantykę za ważniejszą od składni popełnia błąd — semantyka i składnia są równie istotne.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Retoryka i prawda}
+\begin{itemize}
+	\item Logikę można postrzegać jako pewną grę: oto dwóch retorów przerzuca się argumentami, próbując dowieść swoich racji.
+	\item Jeżeli przyjmiemy, że podzielają oni pewne standardy dotyczące tego, jakie argumenty są przekonujące, to możemy powiedzieć, że zdanie jest prawdziwe, gdy w odpowiadającej mu grze jeden z retorów zawsze jest w stanie przekonać drugiego do swojego zdania niezależnie od tego, jakich ten użyje kontrargumentów.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Obliczenia interaktywne}
+\begin{itemize}
+	\item Obliczenia klasycznie rozumiane dotyczą funkcji, tj. maszyna dostaje coś na wejściu i ma zwrócić na wyjściu odpowiedź.
+	\item Nie odpowiada to wielu sytuacjom spotykanym w codziennym życiu, np. dialog użytkownika z serwerem.
+	\item Można wprawdzie modelować takie sytuacje za pomocą funkcji, ale daje to marne efekty. Np. serwer nie staje się wolniejszy wraz z każdym zapytaniem, co znaczy, że jego odpowiedzi nie są wynikami funkcji zależącej od historii interakcji z użytkownikiem. 
+	\item Jest tak dlatego, że obliczanie funkcji charakteryzuje się niskim poziomem interaktywności — interakcja sprowadza się tu do jednego zapytania i jednej odpowiedzi.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Obliczenia interaktywne 2}
+\begin{itemize}
+	\item Obliczenia interaktywne również można postrzegać jako pewien rodzaj gry.
+	\item Jeden z graczy podaje na wejściu swoje zapytanie, a drugi oblicza odpowiedź. Każdy z nich może korzystać z poprzednich zapytań i odpowiedzi.
+	\item Możemy powiedzieć, że problem jest obliczalny, jeżeli w odpowiadającej mu grze gracz liczący ma strategię, która zawsze zwraca poprawne rozwiązanie problemu, niezależnie od tego, jakie dane drugi gracz poda na wejściu.
+	\item Zauważmy, że zdania logiki klasycznej są specjalnym przypadkiem problemów obliczeniowych o zerowym stopniu interakcji — są prawdą lub fałszem i nie trzeba tu nic liczyć.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Game semantics}
+\begin{itemize}
+	\item Odpowiednią semantyką dla naszej logiki są zatem gry.
+	\item Jednym z graczy w naszych grach będzie maszyna, reprezentująca wykonywanie obliczeń. Drugim będzie środowisko, którego celem będzie uprzykrzanie maszynie liczenia przez zadawanie głupich pytań i podawanie dziwnych danych.
+	\item Aby całość nie była oszukana, nakładamy na maszynę obowiązek grania jedynie według strategii algorytmicznych. Środowisko może stosować dowolne strategie.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Game semantics 2}
+\begin{itemize}
+	\item Teoria gier, jako studium kooperacji i konfliktów, bardzo przydatne w ekonomii, może wydawać się dobrym narzędziem do myślenia o świecie rzeczywistym.
+	\item Faktycznie, gry o charakterze formalnym dobrze opisują różne pojedyncze zjawiska zachodzące w świecie.
+	\item Japaridze myli się jednak twierdząc, że logika jest najpełniejszym, spójnym, naturalnym, adekwatnym i wygodnym narzędziem do kierowania swoimi poczynaniami w życiu.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Dualność: problemy i zasoby}
+\begin{itemize}
+	\item A co z zasobami?
+	\item Nasze gry możemy interpretować jako problemy obliczeniowe, które maszyna musi rozwiązać.
+	\item Jeżeli maszyna rozwiązuje problem, to środowisko może się jej przyglądać i wyciągać wnioski z tego procederu.
+	\item Podobnie gdybyśmy zamienili graczy stronami i to środowisko musiało rozwiązać problem, maszyna mogłaby skorzystać z tego rozwiązania.
+	\item Prowadzi nas to do sformułowania pewnej dualności: to co dla jednego z graczy jest problemem, dla drugiego gracza jest zasobem.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{CoL i inne logiki}
+\begin{itemize}
+	\item Przez skupienie się na ideach prawdy, obliczeń i zasobów CoL jest powiązana z logikami klasyczną, intuicjonistyczną i liniową.
+	\item CoL jest konserwatywnym rozszerzeniem logiki klasycznej.
+	\item Pewien fragment CoL jest podobny do logiki liniowej, ale występują różnie. Ogólnie zdania logiki afinicznej są słuszne w CoL, ale nie na odwrót.
+	\item Pewien fragment CoL jest bardzo podobny do logiki intuicjonistycnzej, ale występują różnice.
+	\item Wynika to z różnego podejścia tych logik: semantycznego w przypadku CoL i syntaktycznego w przypadku logiki liniowej oraz intuicjonistycznej.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Ekumenizm logiczny}
+\begin{itemize}
+	\item Logika klasyczna wszystkie wystąpienia zdania $P$ traktuje jako ten sam zasób, zaś logika liniowa każde wystąpienie $P$ traktuje jako osobny zasób. CoL pozwala wyrazić całe spektrum możliwości.
+	\item O ile logika klasyczna i intuicjonistyczna pozostają w konflikcie, o tyle CoL ma charakter ekumeniczny: mamy i jedno i drugie...
+	\item ... i jeszcze więcej: w ramach bonusu CoL jest również konserwatywnym rozszerzeniem logiki IF (\textit{independence friendly logic}).
+\end{itemize}
+\end{frame}
+
+
+\section{Gry}
+
+\begin{frame}{Pojęcia}
+\begin{itemize}
+	\item Gra to drzewko, które nazywamy \textit{gamestructure} (w wesołym tłumaczeniu: wydmuszkowa gra) i oznaczamy $\textbf{Lr}$.
+	\item Wierzchołek drzewa to \textit{run} (oznaczany $\Gamma, \Delta$).
+	\item Wierzchołek w skończonej odległości od korzenia to pozycja (oznaczana $\Phi, \Psi, \Xi, \Omega$).
+	\item Wierzchołki są utożsamiane z prowadzącymi do nich ciągami ruchów. $\langle\rangle$ to pozycja pusta.
+	\item Nazwa krawędzi ($\alpha, \beta, \gamma$) to ruch.
+	\item Nazwa krawędzi wraz z informacją o graczu, który wykonuje ruch ($\textcolor{green}{\alpha}, \textcolor{green}{\beta}, \textcolor{green}{\gamma}$ dla maszyny i $\textcolor{red}{\alpha}, \textcolor{red}{\beta}, \textcolor{red}{\gamma}$ dla środowiska) to kolorowy ruch. W czarno-białym świecie oznaczane $\top\alpha, \top\beta, \top\gamma$ dla maszyny i $\bot\alpha, \bot\beta, \bot\gamma$ dla środowiska.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Pojęcia 2}
+\begin{itemize}
+	\item \textit{Content} to funkcja $\textbf{Wn}: \textbf{Lr} \to \{\top, \bot\}$. Mówi on, który gracz wygrywa grę w danej pozycji: jeśli $\textbf{Wn}(\Gamma) = \top$, to wygrywa maszyna. W przeciwnym wypadku wygrywa środowisko.
+	\item Gra stała (\textit{constant game}) to para $(\textbf{Lr}, \textbf{Wn})$, gdzie pierwszy komponent to \textit{gamestructure}, a drugi — \textit{content}. Gry stałe uogólniają zdania znane z logiki klasycznej.
+	\item Gra stała jest \textit{strict}, gdy dla każdej pozycji co najwyżej jeden gracz możę wykonać ruch. Gra, która nie jest \textit{strict}, jest \textit{free}.
+	\item Co ciekawe, większość ciekawych gier jest \textit{free}. Motywacja: jeżeli gramy w dwie gry na raz, to ruchy w obu grach mogą być w dowolnej kolejności.
+	\item Strategie dla gier \textit{free} nie mogą być funkcjami z pozycji w ruchy.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Pojęcia 3}
+\begin{itemize}
+	\item Gra jest skończonej długości (\textit{finite depth}) gdy długość gałęzi jest ograniczona przez liczbę $d \in \mathbb{N}$.
+	\item Gra jest \textit{perifinite-depth} gdy długość gałęzi jest skończona (ale może być nieograniczona).
+	\item Gra jest skończonej szerokości (\textit{finite breadth}), gdy ma skończoną ilość liści (pozycji końcowych).
+	\item Gra jest skończona (\textit{finite}), gdy ma skończoną liczbę pozycji.
+	\item Gra elementarna (\textit{elementary game}) to gra o głębokości 0.
+	\item Istnieją dokładnie dwie elemenarne gry stałe: $\top$ (prawda, problem trywialny) i $\bot$ (fałsz, problem nierozwiązywalny).
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Przykład}
+\begin{itemize}
+	\item Z niedostatku technologicznego przykład jest niewidzialny (gra odpowiadająca obliczaniu następnika).
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Dlaczego obliczenia interaktywne}
+\begin{itemize}
+	\item Wiele problemów ma więcej niż jedno rozwiązanie, np. problem ``oblicz liczbę większą od $n$''.
+	\item Wiele problemów może na tym samym poziomie mieć różny kolor pozycji. Np. dla niektórych wejść funkcja częściowa jest niezdefiniowana.
+	\item Więcej niż 2 poziomy to gry bardziej interaktywne.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Pojęcia 4}
+\begin{itemize}
+	\item Gry nie muszą być stałe — mogą zależeć od zmiennych. Zapis: $G(x)$.
+	\item Jeżeli $G(x)$ jest grą, $x$ zmienną, a $c$ stałą, to $G(c)$ jest instancją gry $G(x)$.
+	\item Gra $G(x)$ jest elementarna, jeżeli wszystkie jej instancje są elementarne.
+	\item Gry stałe to np. szachy (bez remisów), warcaby etc.
+	\item Gry niestałe to gry karciane — zależą one od początkowej permutacji kart.
+	\item Pozycja jest unilegalna (\textit{unilegal}) gdy jest legalna we wszystkich instancjach gry.
+	\item Gra $G(x)$ jest unistrukturalna (\textit{unistructural}) gdy wszystkie pozycje wszystkich jej instancji są unilegalne. Intuicja: dla każdej stałej $c$ drzewko $G(c)$ ma taki sam kształt.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Pojęcia 5}
+\begin{itemize}
+	\item Gra stała jest statyczna, gdy zwycięstwo zależy od strategii, a nie od szybkości. Jeżeli gra nie jest statyczna, to jest dynamiczna.
+	\item Gra jest statyczna, jeżeli wszystkie jej instancje są statyczne.
+	\item Wszystkie operacje na grach, z którymi się zapoznamy, zachowują statyczność.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Teza (Church-Turing-Japaridze)}
+\begin{itemize}
+	\item Gry statyczne dobrze formalizują intuicyjne pojęcie interaktywnego (niezależnego od szybkości) problemu obliczeniowego.
+	\item Istnienie strategii wygrywającej dobrze formalizuje intuicyjne pojęcie algorytmicznego rozwiązania interaktywnego problemu obliczeniowego.
+\end{itemize}
+\end{frame}
+
+\section{Koniec}
+
+\begin{frame}{Bibliografia}
+\begin{itemize}
+	\item Niestety zabrakło mi czasu, żeby dokończyć prezentację. Odsyłam w związku z tym do poniższej publikacji:
+	\item \href{https://arxiv.org/pdf/1612.04513.pdf}{A Survey of Computability Logic} (gdyby komuś nie działał link, to dostępna jest pod adresem https://arxiv.org/pdf/1612.04513.pdf)
+\end{itemize}
+\end{frame}
+
+\end{document}
