@@ -1,0 +1,282 @@
+\documentclass[11pt]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{amssymb}
+\usepackage[T1]{fontenc}
+\usepackage[polish]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage[intlimits]{amsmath}
+\usepackage{enumitem}
+
+\usepackage{tikz}
+\usetikzlibrary{arrows}
+
+\usepackage{bussproofs}
+
+\selectlanguage{polish}
+
+\renewcommand{\phi}{\varphi}
+
+\begin{document}
+	\title{Rozwiązania zadań z logik modalnych}
+	\author{Zeimer}
+	\date{}
+	\maketitle
+	
+	\par Zad. 1 Dla danej struktury Kripkego $K = (S, R, L)$ i poniższych formuł wyznacz zbiór światów, w których formuła jest lokalnie spełniona.
+	\par Rozwiązanie: zacznijmy od interpretacji reguł lokalnej spełnialności, żeby było nam łatwo odczytywać je z obrazka.
+	\begin{itemize}
+		\item Dla $\Box$ mamy regułę $K, s \models \Box \phi$ wtw $(\forall s, s' \in S)(R(s, s') \implies K, s' \models \phi)$. Językiem obrazkowym: wszystkie strzałki wychodzące z $s$ prowadzą do światów, w których $\phi$ jest spełnione.
+		\item Dla $\Diamond$ mamy regułę $K, s \models \Diamond \phi$ wtw $(\exists s' \in S)(R(s, s') \land K, s' \models \phi)$. Językiem obrazkowym: z $s$ wychodzi strzałka do jakiegoś świata, w którym $\phi$ jest spełnione.
+		\item $\lor$ interpretujemy jako sumę zbiorów światów, $\land$ jako przecięcie zbiorów światów, zaś $\neg$ jako dopełnienie zbiorów światów.
+	\end{itemize}
+	\par Poczyńmy teraz pewne spostrzeżenia, które pomogą nam przekształcać formuły do postaci bardziej przyjaznej obrazkowi.
+	\begin{itemize}
+		\item Pierwsze głosi, że $p \implies q \equiv \neg p \lor q$. Wynika ono wprost z definicji relacji $\models$ — obydwa te zdania są spełnione, gdy $K, s \not\models \phi$ lub $K, s \models \psi$.
+		\item Drugie spotrzeżenie głosi, że $\neg\neg p \equiv p$ — również wynika ono wprost z definicji relacji $\models$ (o ile nasza metalogika jest klasyczna — chyba?).
+		\item Mamy też dualności $\neg \Box \phi \equiv \Diamond \neg \phi$ oraz $\neg \Diamond \phi \equiv \Box \neg \phi$.
+	\end{itemize}
+
+	\par Teraż możemy przerysować obrazek w nieco bardziej czytelny sposób. W naszym modelu mamy:
+	\begin{center}
+		$S = \{v_0, v_1, v_2, v_3, v_4\}$ \\
+		$R = \{v_0 v_1, v_1 v_0, v_1 v_1, v_0 v_2, v_1 v_2, v_2 v_3, v_2 v_4, v_3 v_4, v_4 v_4\}$ \\
+		$L(v_0) = L(v_4) = \{p, q\}$ \\
+		$L(v_1) = \emptyset$ \\
+		$L(v_2) = \{q\}$ \\
+		$L(v_3) = \{p\}$
+	\end{center}
+	
+	\begin{center}
+	\begin{tikzpicture}
+
+		% Worlds.
+		\node (v0) at  (0,0) {$v_0 = pq$};
+		\node (v1) at  (4,0) {$v_1 = \emptyset$};
+		\node (v2) at  (2,-2) {$v_2 = q$};
+		\node (v3) at  (0,-4) {$v_3 = p$};
+		\node (v4) at (4,-4) {$v_4 = pq$};
+
+		% Accessibility relation.
+		\draw[->,above] (v0) to (v1);
+		\draw[->, below] (v1) to (v0);
+		\draw[loop above] (v1) to (v1);
+		\draw[->] (v0) to (v2);
+		\draw[->] (v1) to (v2);
+		\draw[->] (v2) to (v3);
+		\draw[->] (v2) to (v4);
+		\draw[->] (v3) to (v4);
+		\draw[loop below] (v4) to (v4);
+	\end{tikzpicture}
+	\end{center}
+	
+	\par Po przekształceniu naszych zdań za pomocą powyższych równoważności możemy łatwo odczytać z obrazka zbiory światów, w których są lokalnie spełnione.
+	\begin{enumerate}[label=(\alph*)]
+		\item $\Box p \implies \Box\Diamond p \equiv \neg\Box p \lor \Box\Diamond p \equiv \Diamond\neg p \lor \Box\Diamond p$ \\
+		\begin{tabular}{ | l | l | }
+			\hline
+			$p$ & $v_0, v_3, v_4$ \\\hline
+			$\neg p$ & $v_1, v_2$ \\\hline
+			$\Diamond\neg p$ & $v_0, v_1$ \\\hline
+			$\Diamond p$ & $v_1, v_2, v_3, v_4$ \\\hline
+			$\Box\Diamond p$ & $v_0, v_2, v_3, v_4$ \\\hline
+			$\Box p \implies \Box\Diamond p$ & $v_0, v_1, v_2, v_3, v_4$ \\\hline
+		\end{tabular}
+		\item $\Box\Diamond p \implies p \equiv \neg\Box\Diamond p \lor p \equiv \Diamond\Box\neg p \lor p$ \\
+		\begin{tabular}{ | l | l | }
+			\hline
+			$\Box\neg p$ & $v_0$ \\\hline
+			$\Diamond\Box\neg p$ & $v_1$ \\\hline
+			$\Box\Diamond p \implies p$ & $v_0, v_1, v_3, v_4$ \\\hline
+		\end{tabular}
+		\item $\Diamond\Diamond (p \land q)$ \\
+		\begin{tabular}{ | l | l | }
+			\hline
+			$q$ & $v_0, v_2, v_4$ \\\hline
+			$p \land q$ & $v_0, v_4$ \\\hline
+			$\Diamond (p \land q)$ & $v_1, v_2, v_3, v_4$ \\\hline
+			$\Diamond\Diamond (p \land q)$ & $v_0, v_1, v_2, v_3, v_4$ \\\hline
+		\end{tabular}
+		\item $p \implies \Box p \lor \Diamond (p \implies q) \equiv \neg p \lor \Box p \lor \Diamond (\neg p \lor q)$ \\
+		\begin{tabular}{ | l | l | }
+			\hline
+			$\Box p$ & $v_2, v_3, v_4$ \\\hline
+			$\neg p \lor q$ & $v_0, v_1, v_2, v_4$ \\\hline
+			$\Diamond (\neg p \lor q)$ & $v_0, v_1, v_2, v_3, v_4$ \\\hline
+			$p \implies \Box p \lor \Diamond (p \implies q)$ & $v_0, v_1, v_2, v_3, v_4$ \\\hline
+		\end{tabular}
+		\item $\Diamond\Box\neg q \implies \Diamond\Diamond p \equiv \neg\Diamond\Box\neg q \lor \Diamond\Diamond p \equiv \Box\Diamond q \lor \Diamond\Diamond p$ \\
+		\begin{tabular}{ | l | l | }
+			\hline
+			$\Diamond q$ & $v_0, v_1, v_2, v_3, v_4$ \\\hline
+			$\Box\Diamond q$ & $v_0, v_1, v_2, v_3, v_4$ \\\hline
+			$\Diamond\Box\neg q \implies \Diamond\Diamond p$ & $v_0, v_1, v_2, v_3, v_4$ \\\hline
+		\end{tabular}
+		\item $\Box p \land \Box\neg q$ — ponieważ $\Diamond q$ jest spełniona wszędzie, to $\Box\neg q \equiv \neg\Diamond q$ nie jest spełniona nigdzie, a zatem cała formuła $\Box p \land \Box\neg q$ także nie jest spełniona w żadnym świecie.
+	\end{enumerate}
+	
+	\newpage
+	
+	\par Zad. 2 Chcemy strukturę $K = (S, R, L)$, gdzie $S$ i $R$ są jak w poprzednim zadaniu, ale $L$ ma być takie, żeby formuła $\Diamond p \implies \Box q$ była globalnie spełniona.
+	\par Rozwiązanie: aby implikacja była globalnie spełniona wystarczy aby jej konkluzja była globalnie spełniona. Niech więc $S= \{v_0\}, R = \{v_0 v_0\}, L(\_) = \{q\}$. Wtedy $q$ jest spełnione wszędzie, czyli $\Box q$ także jest spełnione wszędzie, a zatem cała formuła $\Diamond p \implies \Box q$ także jest spełniona wszędzie. \\
+
+	\par Zad. 3 Chcemy strukturę $K = (S, R, L)$, gdzie $S$ i $R$ są jak w poprzednim zadaniu, ale $L$ ma być takie, żeby formuła $\neg (\Diamond p \lor \Box\neg p)$ była lokalnie spełniona.
+	\par Rozwiązanie: zauważmy, że $\Diamond p \equiv \neg\Box\neg p$, a zatem $\neg (\Diamond p \lor \Box\neg p) \equiv \neg (\neg\Box\neg p \lor \Box\neg p)$ — nasza formuła to zaprzeczenie prawa wyłączonego środka, które jest globalnie spełnione, a zatem nie może być lokalnie spełniona w żadnym świecie. \\
+	
+	\par Zad. 4 Chcemy skonstruować strukturę $K = (S, R, L)$, w której lokalnie spełnione jest zdanie $\Box p \land \Diamond\Box (q \land \Diamond p) \land (p \implies \neg q)$.
+	\par Rozwiązanie: będziemy konstruować $K$ rozważając każdy człon koniunkcji z osobna idąc od prawej do lewej. Zacznijmy od świata $v_0$, w którym mamy $L(v_0) = \emptyset$. W $v_0$ spełnione są $\neg p$ oraz $\neg q$, a zatem spełnione jest także zdanie $p \implies \neg q$.
+	\par Teraz dorzućmy świat $v_1$, dla którego $L(v_1) = \{p, q\}$ i który ma ścieżkę do samego siebie. W $v_1$ spełnione jest $q$ oraz $\Diamond p$, a ponieważ możemy z niego przejść tylko do niego samego, to spełnione jest także $\Box (q \land \Diamond p)$. Jeżeli podłączymy do $v_0$ świat $v_1$, to w $v_0$ spełniona będzie formuła $\Diamond\Box (q \land \Diamond p)$.
+	\par Ponieważ z $v_0$ możemy dojść tylko do $v_1$, a tam lokalnie spełnione jest $p$, to w $v_0$ lokalnie spełnione jest $\Box p$. Voilà! Ostatecznie nasza struktura prezentuje się tak:
+	
+	\begin{center}
+		$S = \{v_0, v_1\}$ \\
+		$R = \{v_0 v_1, v_1 v_1\}$ \\
+		$L(v_0) = \emptyset$ \\
+		$L(v_1) = \{p, q\}$
+	\end{center}
+	
+	\begin{center}
+	\begin{tikzpicture}
+
+		% Worlds.
+		\node (v0) at  (0,0) {$v_0 = \emptyset$};
+		\node (v1) at  (0,-2) {$v_1 = pq$};
+
+		% Accessibility relation.
+		\draw[->] (v0) to (v1);
+		\draw[->, loop below] (v1) to (v1);
+	\end{tikzpicture}
+	\end{center}
+	
+	\newpage
+	\EnableBpAbbreviations
+	
+	\par Zad. 5 
+	\begin{enumerate}[label=(\alph*)]
+		\item Chcemy pokazać $\vdash_K p \implies \Diamond\Diamond\Diamond p$.
+			\par Przypomnijmy, że w logice $K$ nie ma żadnych ograniczeń na możliwe ramy. Jeżeli wyobrazimy sobie nasze zdanie, to mówi ono, że w każdym świecie $p$ nie zachodzi lub istnieje ścieżka długości $3$ prowadząca do świata, w którym $p$ zachodzi — jest to bardzo podejrzane. Rozważmy model $K = (S, R, L)$, gdzie $S = \{v\}$, $R = \emptyset$ oraz $L(v) = \{p\}$. Ponieważ w $v$ zachodzi $p$, to poprzednik implikacji jest spełniony. Ponieważ $v$ nie jest połączony z żadnym innym światem, to następnik implikacji nie jest spełniony, a zatem $\not\vdash_K p \implies \Diamond\Diamond\Diamond p$.
+			
+		\item Chcemy pokazać $\vdash_T p \implies \Diamond\Diamond\Diamond p$.
+
+			\begin{prooftree}
+				\AXC{}
+				
+				\RL{$\text{Ass}$}
+				\UIC{$p \vdash_T p$}
+				
+				\RL{$R_\diamond$}
+				\UIC{$p \vdash_T \Diamond p$}
+				
+				\RL{$R_\diamond$}
+				\UIC{$p \vdash_T \Diamond\Diamond p$}
+				
+				\RL{$R_\diamond$}
+				\UIC{$p \vdash_T \Diamond\Diamond\Diamond p$}
+				
+				\RL{$R_{\implies}$}
+				\UIC{$\vdash_T p \implies \Diamond\Diamond\Diamond p$}
+			\end{prooftree}
+		
+		\item Chcemy pokazać $\vdash_K \Diamond (p \lor q) \implies \Diamond p \lor \Diamond q$.
+		
+			\begin{prooftree}
+				\AXC{}
+				\RL{Ass}
+				\UIC{$p \vdash_K p, q$}
+				
+				\AXC{}
+				\RL{Ass}
+				\UIC{$q \vdash_K p, q$}
+				
+				\RL{$L_\lor$}
+				\BIC{$p \lor q \vdash_K p, q$}
+				
+				\RL{$L_\Diamond$}
+				\UIC{$\Diamond (p \lor q) \vdash_K \Diamond p, \Diamond q$}
+				
+				\RL{$R_\lor$}
+				\UIC{$\Diamond (p \lor q) \vdash_K \Diamond p \lor \Diamond q$}
+				
+				\RL{$R_{\implies}$}
+				\UIC{$\vdash_K \Diamond (p \lor q) \implies \Diamond p \lor \Diamond q$}
+			\end{prooftree}
+			
+		\item Chcemy pokazać $\vdash_T \Box (p \lor q) \implies \Box p \lor \Box q$.
+			
+			\par Zdanie to jest bardzo podejrzane. Jego poprzednik głosi, że z każdego świata możemy dojść do takiego, gdzie spełnione jest $p$ lub $q$, zaś następnik, że z każdego świata możemy dojść do świata spełniającego $p$ lub do świata spełniającego $q$. Kontrprzykład nasuwa się sam:
+	
+		\begin{center}
+		\begin{tikzpicture}
+
+			% Worlds.
+			\node (v0) at  (0,0) {$v_0 = p$};
+			\node (v1) at  (2,0) {$v_1 = q$};
+
+			% Accessibility relation.
+			\draw[->] (v0) to (v1);
+			\draw[->] (v1) to (v0);
+			\draw[->, loop above] (v0) to (v0);
+			\draw[->, loop above] (v1) to (v1);
+		\end{tikzpicture}
+		\end{center}
+			
+		\par W powyższym modelu zdanie $\Box (p \lor q)$ jest globalnie spełnione, ale zdania $\Box p$ i $\Box q$ nie są spełnione nigdzie, więc zdania $\Box (p \lor q) \implies \Box p \lor \Box q$ nie da się dowieść w logice $T$.
+		
+		\item Chcemy pokazać $\vdash_T \Box p \implies \Box\Diamond\Box p$.
+		
+			\begin{prooftree}				
+				\AXC{$p \vdash_T \Box p$}
+				
+				\RL{$R_\Diamond$}
+				\UIC{$p \vdash_T \Diamond\Box p$}
+				
+				\RL{$R_\Box$}
+				\UIC{$\Box p \vdash_T \Box\Diamond\Box p$}
+				
+				\RL{$R_{\implies}$}
+				\UIC{$\vdash_T \Box p \implies \Box\Diamond\Box p$}
+			\end{prooftree}
+			
+			\par Próba zastosowania jedynych słusznych reguł zawiodła. Spróbujmy więc skonstruować model, w którym jest świat, w którym poprzednik implikacji jest spełniony, a następnik nie. Musimy pamiętać jedynie, że w logice $T$ rama musi być zwrotna.
+		
+				\begin{center}
+				\begin{tikzpicture}
+
+					% Worlds.
+					\node (v0) at  (0,0) {$v_0 = p$};
+					\node (v1) at  (2,0) {$v_1 = p$};
+					\node (v2) at  (4,0) {$v_2 = \emptyset$};
+
+					% Accessibility relation.
+					\draw[->] (v0) to (v1);
+					\draw[->] (v1) to (v2);
+					\draw[->, loop above] (v0) to (v0);
+					\draw[->, loop above] (v1) to (v1);
+					\draw[->, loop above] (v2) to (v2);
+					
+				\end{tikzpicture}
+				\end{center}
+				
+			\par Przyjrzyjmy się światowi $v_0$. Gdziekolwiek się nie ruszymy, lądujemy w świecie spełniającym $p$, a zatem w $v_0$ zachodzi $\Box p$. Nie zachodzi jednak $\Box\Diamond\Box p$: jeżeli ruszymy się do $v_1$, to gdziekolwiek byśmy nie poszli ($v_1$ lub $v_2$), zawsze możemy dojść do świata $v_2$, w którym nie zachodzi ani $p$, ani $\Box p$. Ostatecznie konkludujemy, że $\not\vdash_T \Box p \implies \Box\Diamond\Box p$.
+			
+		\item Chcemy pokazać $\vdash_{S_5} \Box p \implies \Box\Diamond\Box p$.
+		
+			\begin{prooftree}
+				\AXC{}
+				
+				\RL{Ass}
+				\UIC{$p, \Box p \vdash_{S_5} \Box p$}
+				
+				\RL{$R_\Diamond$}
+				\UIC{$p, \Box p \vdash_{S_5} \Diamond\Box p$}
+				
+				\RL{$R_\Box$}
+				\UIC{$\Box p \vdash_{S_5} \Box\Diamond\Box p$}
+				
+				\RL{$R_{\implies}$}
+				\UIC{$\vdash_{S_5} \Box p \implies \Box\Diamond\Box p$}
+			\end{prooftree}
+		
+	\end{enumerate}
+
+\end{document}

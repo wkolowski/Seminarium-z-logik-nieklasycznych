@@ -1,0 +1,53 @@
+\documentclass[11pt]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{amssymb}
+\usepackage[T1]{fontenc}
+\usepackage[polish]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage[intlimits]{amsmath}
+\usepackage{../MyMath}
+\usepackage{enumitem}
+\selectlanguage{polish}
+\begin{document}
+	\title{Rozwiązania zadań z logiki klasycznej}
+	\author{Zeimer}
+	\date{}
+	\maketitle
+	
+	\par Zad. 1 Która z poniższych formuł jest semantycznie równoważna formule $p \to q \lor r$?
+	\par Rozwiązanie: najpierw musmy ustalić, co autor miał na myśli pisząc ``semantycznie równoważna''. Przyjmijmy, że zdania $p$ i $q$ są semantycznie równoważne, co będziemy zapisywać $p \equiv q$, gdy $\vdash p \leftrightarrow q$.
+	\par Na mocy równoważności $p \to q \equiv \neg p \lor q$ oraz praw de Morgana i oznaczając naszą formułę gwiazdką $(*)$ mamy $(*) \equiv p \to q \lor r \equiv \neg p \lor q \lor r$. Teraz wystarczy podobnie przekształcić poniższe zdania:
+	\begin{enumerate}[label=(\alph*)]
+		\item $q \lor (\neg p \lor r) \equiv \neg p \lor q \lor r$
+		\item $q \land \neg r \to p \equiv \neg (q \land \neg r) \lor p \equiv \neg q \lor \neg \neg r \lor p \equiv p \lor \neg q \lor r$
+		\item $p \land \neg r \to q \equiv \neg (p \land \neg r) \lor q \equiv \neg p \lor \neg \neg r \lor q \equiv \neg p \lor q \lor r$
+		\item $\neg q \land \neg r \to p \equiv \neg (\neg q \land \neg r) \lor p \equiv \neg \neg q \lor \neg \neg r \lor p \equiv p \lor q \lor r$
+	\end{enumerate}
+	\par Zdania (a) oraz (c) mają taką samą postać jak $(*)$, są więc jej równoważne, zaś (b) oraz (d) mają inną postać.
+	\par Dla wartościowania $\sigma(p) = \sigma(q) = \sigma(r) = 0$ mamy $\hat{\sigma}((*)) = 1$, ale $\hat{\sigma}($(d)$) = 0$, zatem $(*)$ i (d) nie są równoważne.
+	\par Podobnie dla wartościowania $\sigma(p) = 0, \sigma(q) = 1, \sigma(r) = 0$ mamy $\hat{\sigma}((*)) = 1$, ale $\hat{\sigma}($(b)$) = 0$, a zatem $(*)$ i (b) nie są równoważne.
+	
+	\newpage
+	
+	\par Zad. 2 Czy spełnialna jest formuła $(p \to q) \lor (q \to r)$?
+	\par Rozwiązanie: rozważmy dowolne wartościowanie $\sigma$. Rozpatrzmy dwa przypadki:
+	\begin{enumerate}
+		\item Jeżeli $\sigma(q) = 0$, to wtedy $\hat{\sigma}(q \to r) = 1$, a zatem $\hat{\sigma}((p \to q) \lor (q \to r)) = 1$
+		\item Jeżeli zaś $\sigma(q) = 1$, to mamy $\hat{\sigma}(p \to q) = 1$, a więc $\hat{\sigma}((p \to q) \lor (q \to r)) = 1$
+	\end{enumerate}
+	\par Wobec tego formuła $(p \to q) \lor (q \to r)$ jest tautologią, a zatem jest spełnialna.
+	
+	\newpage
+	
+	\par Zad. 3 Sprawdź, czy $(\exists x, \phi) \land (\exists x, \psi) \implies (\exists x, \phi \land \psi)$ jest tautologią.
+	\par Rozwiązanie: nie jest. Niech $\phi(n) \df $ ``$n$ jest parzyste'' i niech $\psi(n) \df $ ``$n$ jest nieparzyste''. $0$ i $1$ świadczą o tym, że obie przesłanki implikacji są spełnione. Wobec tego gdyby powyższe zdanie było tautologią, to wtedy istniałaby liczba naturalna, która jest jednocześnie parzysta i nieparzysta, a tak nie jest. Mamy sprzeczność, a zatem powyższa formuła nie jest tautologią.
+	
+	\newpage
+	
+	\par Zad. 4 Rozpatrzmy formułę $\phi \df \forall x \forall y, Q(g(x, y), g(y, y), z)$. Chcemy takie modele $M$ i $M'$ oraz wartościowania $I$ oraz $I'$, że $M \models_I \phi$, ale $M' \not\models_{I'} \phi$.
+	\par Idea jest prosta: w jednym modelu $Q$ będzie zawsze prawdziwe, a w drugim zawsze fałszywe. Zanim przystąpimy do konstrukcji modeli zauważmy, że nasz zbiór symboli funkcyjnych to $F = \set{g}$, zbiór symboli relacyjnych to $R = \set{Q}$, zaś zbiór zmiennych to $V = \set{x, y, z}$. Uwaga: będziemy używać whitebookowej notacji $I_x^a(y) \df \case{I(y), x \neq y \\ a, x = y}$.
+	\par Robimy model $M$. Niech $A = \set{*}$ będzie uniwersum modelu. Funkcję $g$ zinterpretujemy jako $g^M \df \lambda x.*$, zaś relację $Q$ jako $Q^M \df \set{(*, *, *)}$. Niech $I(\_) = *$ będzie wartościowaniem.
+	\par Z definicji relacji $\models$ mamy $M \models_I \forall x \forall y, Q(g(x, y), g(y, y), z) \equiv $ dla każdego $a \in A$ zachodzi $M \models_I \forall y, Q(g(x, y), g(y, y), z)[I_x^a] \equiv $ dla każdego $a, b \in A$ zachodzi $M \models_I Q(g(x, y), g(y, y), z)[(I_x^a)_y^b]$. Oczywiście musi być $a = b = *$, a zatem $(I_x^a)_y^b = I$. Wobec tego $M \models_I Q(g(x, y), g(y, y), z)[(I_x^a)_y^b] \equiv M \models_I Q(g(x, y), g(y, y), z)[I] \equiv (g^M(x, y)[I], g^M(y, y)[I], z^M[I]) \in Q^M \equiv ((\lambda x.*)(*, *), (\lambda x.*)(*, *), *) \in \set{(*, *, *)} \equiv (*, *, *) \in \set{(*, *, *)}$, co jest prawdą, a zatem faktycznie $M \models_I \forall x \forall y, Q(g(x, y), g(y, y), z)$
+	\par Robimy model $M'$. Niech $A = \set{*}$ będzie uniwersum modelu. Funkcję $g$ interpretujemy tak jako poprzednio jako $g^{M'} \df \lambda x.*$ i używamy takiej samej waluacji $I'(\_) = *$, ale relację $Q$ tym razem interpretujemy jako $Q^{M'} \df \emptyset$. Rozumując jak poprzednio dochodzimy do wniosku, że $M' \models_{I'} \forall x \forall y, Q(g(x, y), g(y, y), z) \equiv (*, *, *) \in \emptyset$, co nie jest prawdą, a zatem $M' \not\models_{I'} \forall x \forall y, Q(g(x, y), g(y, y), z)$
+\end{document}
