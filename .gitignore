@@ -5,3 +5,6 @@
 *.snm
 *.toc
 *.gz
+*fls
+*fdb_latexmk
+*.synctex(busy)
