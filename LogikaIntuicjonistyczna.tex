@@ -174,11 +174,12 @@ Waluacja to funkcja $v : \text{Var} \to H$, gdzie $\text{Var}$ oznacza zbiór zm
 
 Waluację możemy rozszerzyć do funkcji $\tilde{v}: \text{Frm} \to H$, gdzie $\text{Frm}$ to zbiór zdań naszej logiki, za pomocą następującej definicji: \\
 \begin{center}
-$\tilde{v}(\top) = \top$ \\
-$\tilde{v}(\bot) = \bot$ \\
-$\tilde{v}(P \land Q) = \tilde{v}(P) \land \tilde{v}(Q)$ \\
-$\tilde{v}(P \lor Q) = \tilde{v}(P) \lor \tilde{v}(Q)$ \\
-$\tilde{v}(P \impl Q) = \tilde{v}(P) \impl \tilde{v}(Q)$ \\
+  $\tilde{v}(x) = v(x)$ \\
+  $\tilde{v}(\top) = \top$ \\
+  $\tilde{v}(\bot) = \bot$ \\
+  $\tilde{v}(P \land Q) = \tilde{v}(P) \land \tilde{v}(Q)$ \\
+  $\tilde{v}(P \lor Q) = \tilde{v}(P) \lor \tilde{v}(Q)$ \\
+  $\tilde{v}(P \impl Q) = \tilde{v}(P) \impl \tilde{v}(Q)$ \\
 \end{center}
 
 Zauważmy, że symbole $\top, \bot, \land, \lor, \impl$ po lewej oznaczają spójniki logiczne, a po prawej - operacje w algebrze Heytinga $H$.
@@ -425,27 +426,27 @@ To rozróżnienie pomoże nam też zrozumieć, jak działają systemy dowodzenia
 	
 	Podobnie jak w rachunku sekwentów mamy tu sporo reguł i żadnych aksjomatów. \\~\
 	
-	Systemy dedkucji naturalnej występują w wielu wersjach: Fitch, tradycyjnym (bez kontekstów) oraz z kontekstami. Przyjrzymy się tylko ostatniemu z nich, gdyż jest on najbardziej praktyczny.
+	Systemy dedukcji naturalnej występują w wielu wersjach: Fitch, tradycyjnym (bez kontekstów) oraz z kontekstami. Przyjrzymy się tylko ostatniemu z nich, gdyż jest on najbardziej praktyczny.
 \end{frame}
 
 \begin{frame}{Dedukcja naturalna - reguły dla spójników}
 \begin{columns}
-	\begin{column}{0.6\textwidth}
+	\begin{column}{0.5\textwidth}
 	\begin{itemize}
 		\setlength\itemsep{2em}
 		\item $\displaystyle \frac{\Gamma \vdash A \qquad \Gamma \vdash B}{\Gamma \vdash A \land B} (\land\text{-intro})$
-		\item $\displaystyle \frac{\Gamma \vdash A}{\Gamma \vdash A \lor B} (\lor\text{-intro L})$
-		\item $\displaystyle \frac{\Gamma \vdash B}{\Gamma \vdash A \lor B} (\lor\text{-intro R})$
+		\item $\displaystyle \frac{\Gamma \vdash A}{\Gamma \vdash A \lor B} (\lor\text{-intro-L})$
+		\item $\displaystyle \frac{\Gamma \vdash B}{\Gamma \vdash A \lor B} (\lor\text{-intro-R})$
 		\item $\displaystyle \frac{\Gamma, A \vdash B}{\Gamma \vdash A \implies B} (\implies\text{-intro})$
 	\end{itemize}
 	\end{column}
 	
-	\begin{column}{0.6\textwidth}
+	\begin{column}{0.8\textwidth}
 	\begin{itemize}
 		\setlength\itemsep{2em}
-		\item $\displaystyle \frac{\Gamma \vdash A \land B}{\Gamma \vdash A} (\land\text{-elim L})$
-		\item $\displaystyle \frac{\Gamma \vdash A \land B}{\Gamma \vdash B} (\land\text{-elim R})$
-		\item $\displaystyle \frac{\Gamma, A \vdash C \qquad \Gamma, B \vdash C}{\Gamma, A \lor B \vdash C} (\lor\text{-elim})$
+		\item $\displaystyle \frac{\Gamma \vdash A \land B}{\Gamma \vdash A} (\land\text{-elim-L})$
+		\item $\displaystyle \frac{\Gamma \vdash A \land B}{\Gamma \vdash B} (\land\text{-elim-R})$
+		\item $\displaystyle \frac{\Gamma \vdash A \lor B \quad \Gamma, A \vdash C \quad \Gamma, B \vdash C}{\Gamma \vdash C} (\lor\text{-elim})$
 		\item $\displaystyle \frac{\Gamma \vdash A \impl B \qquad \Gamma \vdash A}{\Gamma \vdash B} (\impl\text{-elim})$
 	\end{itemize}
 	\end{column}
@@ -453,15 +454,15 @@ To rozróżnienie pomoże nam też zrozumieć, jak działają systemy dowodzenia
 \end{frame}
 
 \begin{frame}{Interpretacja reguł dla spójników}
-	Reguły wnioskowania dla spójników dzielą się na dwie grupy, mianowicie reguły wprowadzania i reguły eliminacji. Reguły wprowadzania (czytane z góry na dół) mówią, jak udowodnić zdanie zawierające dany spójnik, np. $\lor\text{-intro}\ L$ mówi, że jeżeli z kontekstu $\Gamma$ wynika zdanie $A$, to z $\Gamma$ wynika też zdanie $A \lor B$. \\~\
+	Reguły wnioskowania dla spójników dzielą się na dwie grupy: reguły wprowadzania i reguły eliminacji. Reguły wprowadzania (czytane z góry na dół) mówią, jak udowodnić zdanie zawierające dany spójnik, np. $\lor\text{-intro-L}$ mówi, że jeżeli z kontekstu $\Gamma$ wynika zdanie $A$, to z $\Gamma$ wynika też zdanie $A \lor B$. \\~\
 	
-	Reguły eliminacji (czytane z góry na dół) mówią, co możemy wywnioskować, mając dane zdanie w kontekście jako założenie, np. reguła $\land\text{-elim} R$ mówi, że jeżeli wiemy, że z $\Gamma$ wynika $A \land B$, to z $\Gamma$ wynika także $B$.
+	Reguły eliminacji (czytane z góry na dół) mówią, co możemy wywnioskować, mając dane zdanie w kontekście jako założenie, np. reguła $\land\text{-elim-R}$ mówi, że jeżeli z $\Gamma$ wynika $A \land B$, to z $\Gamma$ wynika także $B$.
 \end{frame}
 
 \begin{frame}{Harmonia}
 	Rozsądnym jest, żebyśmy eliminując dane zdanie za pomocą reguły eliminacji byli w stanie wywnioskować dokładnie tyle informacji, ile potrzebowaliśmy do jego udowodnienia za pomocą reguły wprowadzania. \\~\
 	
-	Dla przykładu, żeby udowodnić $A \land B$ musimy udowodnić osobno $A$ oraz $B$, więc mając $A \land B$ jako założenie możemy wywnioskować, że zachodzi nic więcej ponad $A$ i $B$. \\~\
+	Dla przykładu, żeby udowodnić $A \land B$ musimy udowodnić osobno $A$ oraz $B$, więc mając $A \land B$ jako założenie możemy wywnioskować, że zachodzi $A$ i $B$ i nic więcej ponad to. \\~\
 	
 	Zjawisko to nosi nazwę harmonii i jest charakterystyczne dla dedukcji naturalnej w logice intuicjonistycznej. W logice klasycznej nie jest ono obecne, gdyż tautologie takie jak $P \lor \neg P$ dają nam informacje za darmo.
 \end{frame}
@@ -481,7 +482,7 @@ To rozróżnienie pomoże nam też zrozumieć, jak działają systemy dowodzenia
 	
 	Jej główną zaletą jest jednak podobieństwo do codziennego sposobu dowodzenia stosowanego przez matematyków oraz fakt, że jej dowody odpowiadają w bardzo ścisłym sensie termom rachunku $\lambda$ z typami prostymi (korespondencja Curry'ego-Howarda), co czyni związane z nią intuicje podstawą rozmaitych systemów typów, funkcyjnych języków programowania oraz asystentów dowodzenia. \\~\
 	
-	Więcej o dedukcji naturanej bez kontekstów można przeczytać tutaj: \url{http://www.cs.cmu.edu/~fp/courses/15317-f17/lectures/02-natded.pdf}
+	Więcej o dedukcji naturalnej bez kontekstów można przeczytać tutaj: \url{http://www.cs.cmu.edu/~fp/courses/15317-f17/lectures/02-natded.pdf}
 \end{frame}
 
 \section{Korespondencja Curry'ego-Howarda}
@@ -502,7 +503,7 @@ To rozróżnienie pomoże nam też zrozumieć, jak działają systemy dowodzenia
 	\item Zdanie $\top$ (prawda).
 	\item Zdanie $\bot$ (fałsz).
 	\item Dowodami koniunkcji $P \land Q$ są pary dowodów $(p, q)$.
-	\item Dowód implikacji $P \impl Q$ przekształca dowód poprzednika $P$ w dowód następnika $Q$. 
+	\item Dowód implikacji $P \impl Q$ przekształca dowód hipotezy $P$ w dowód konkluzji $Q$. 
 \end{itemize}
 \end{column}
 \end{columns}
@@ -517,7 +518,7 @@ To rozróżnienie pomoże nam też zrozumieć, jak działają systemy dowodzenia
 	
 	Jednym z większych sukcesów w jego zastosowaniu była formalizacja dowodu twierdzenia o czterech barwach, znanego z teorii grafów. \\~\
 	
-	Jeżeli chcesz dowiedzieć się więcej na jego temat, zajrzyj na jego stronę domową \url{https://coq.inria.fr/} lub do mojej książki \url{https://zeimer.github.io/}
+	Jeżeli chcesz dowiedzieć się więcej na jego temat, zajrzyj na jego stronę domową \url{https://coq.inria.fr/} lub do mojej książki \url{https://wkolowski.github.io/}
 \end{frame}
 
 \section{Zadania}
@@ -529,7 +530,6 @@ To rozróżnienie pomoże nam też zrozumieć, jak działają systemy dowodzenia
 	\item Udowodnij zdanie $\neg (P \land \neg P)$ w systemie Hilberta, rachunku sekwentów i dedukcji naturalnej.
 	\item Czy dowód twierdzenia Cantora-Bernsteina jest konstruktywny?
 	\item Sprawdź, które tautologie logiki klasycznej są tautologiami logiki intuicjonistycznej, a które nie.
-	\item (Opcjonalne) Zainstaluj Coqa, przeczytaj \url{https://zeimer.github.io/R1.html} i wykonaj wszystkie ćwiczenia.
 \end{itemize}
 \end{frame}
 
